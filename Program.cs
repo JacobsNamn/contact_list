@@ -30,22 +30,7 @@
                 }
                 else if (commandLine[0] == "save")
                 {
-                    if (commandLine.Length < 2)
-                    {
-                        using (StreamWriter outfile = new StreamWriter(lastFileName))
-                        {
-                            foreach (Person p in contactList)
-                            {
-                                if (p != null)
-                                    outfile.WriteLine($"{p.persname};{p.surname};{p.phone};{p.address};{p.birthdate}");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // NYI!
-                        Console.WriteLine("Not yet implemented: save /file/");
-                    }
+                    save(commandLine);
                 }
                 else if (commandLine[0] == "new")
                 {
@@ -113,6 +98,20 @@
                         }
                     }
                 }
+            }
+        }
+
+        static void save(string[] commandLine) {
+            if (commandLine.Length < 2) {
+                using (StreamWriter outfile = new StreamWriter(lastFileName)) {
+                    foreach (Person p in contactList) {
+                        if (p != null)
+                            outfile.WriteLine($"{p.persname};{p.surname};{p.phone};{p.address};{p.birthdate}");
+                    }
+                }
+            } else {
+                // NYI!
+                Console.WriteLine("Not yet implemented: save /file/");
             }
         }
 
