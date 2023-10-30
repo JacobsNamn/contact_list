@@ -2,7 +2,7 @@
 {
     class MainClass
     {
-        static Person[] contactList = new Person[100];
+        static List<Person> contactList = new List<Person>();
         class Person
         {
             public string PersName { get; set; }
@@ -69,12 +69,7 @@
                     string[] addresses = attrs[3].Split(';');
                     p.Addresses = addresses;
 
-                    for (int ix = 0; ix < contactList.Length; ix++) {
-                        if (contactList[ix] == null) {
-                            contactList[ix] = p;
-                            break;
-                        }
-                    }
+                    contactList.Add(p);
 
                 }
             }
