@@ -34,20 +34,7 @@
                 }
                 else if (commandLine[0] == "new")
                 {
-                    if (commandLine.Length < 2)
-                    {
-                        Console.Write("personal name: ");
-                        string persname = Console.ReadLine();
-                        Console.Write("surname: ");
-                        string surname = Console.ReadLine();
-                        Console.Write("phone: ");
-                        string phone = Console.ReadLine();
-                    }
-                    else
-                    {
-                        // NYI!
-                        Console.WriteLine("Not yet implemented: new /person/");
-                    }
+                    newItem(commandLine);
                 }
                 else if (commandLine[0] == "help")
                 {
@@ -112,6 +99,20 @@
             } else {
                 // NYI!
                 Console.WriteLine("Not yet implemented: save /file/");
+            }
+        }
+
+        static void newItem(string[] commandLine) {
+            if (commandLine.Length < 2) {
+                Console.Write("personal name: ");
+                string persname = Console.ReadLine();
+                Console.Write("surname: ");
+                string surname = Console.ReadLine();
+                Console.Write("phone: ");
+                string phone = Console.ReadLine();
+            } else {
+                // NYI!
+                Console.WriteLine("Not yet implemented: new /person/");
             }
         }
 
