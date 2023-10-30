@@ -5,7 +5,11 @@
         static Person[] contactList = new Person[100];
         class Person
         {
-            public string persname, surname, phone, address, birthdate;
+            public string PersName { get; set; }
+            public string Surname { get; set; }
+            public string Phone { get; set; }
+            public string Address { get; set; }
+            public string BirthDate { get; set; }
         }
 
         static string lastFileName = "address.lis";
@@ -24,24 +28,11 @@
                     // NYI!
                     Console.WriteLine("Not yet implemented: safe quit");
                 }
-                else if (commandLine[0] == "load")
-                {
-                    load(commandLine);
-                }
-                else if (commandLine[0] == "save")
-                {
-                    save(commandLine);
-                }
-                else if (commandLine[0] == "new")
-                {
-                    newItem(commandLine);
-                }
-                else if (commandLine[0] == "help")
-                {
-                    showHelp();
-                }
-                else
-                {
+                else if (commandLine[0] == "load") { load(commandLine); }
+                else if (commandLine[0] == "save") { save(commandLine); }
+                else if (commandLine[0] == "new") { newItem(commandLine); }
+                else if (commandLine[0] == "help") { showHelp(); }
+                else {
                     Console.WriteLine($"Unknown command: '{commandLine[0]}'");
                 }
             } while (commandLine[0] != "quit");
@@ -72,18 +63,19 @@
                     Console.WriteLine(line);
                     string[] attrs = line.Split('|');
                     Person p = new Person();
-                    p.persname = attrs[0];
-                    p.surname = attrs[1];
+                    p.PersName = attrs[0]; p.Surname = attrs[1];
                     string[] phones = attrs[2].Split(';');
-                    p.phone = phones[0];
+                    p.Phone = phones[0];
                     string[] addresses = attrs[3].Split(';');
-                    p.address = addresses[0];
+                    p.Address = addresses[0];
+
                     for (int ix = 0; ix < contactList.Length; ix++) {
                         if (contactList[ix] == null) {
                             contactList[ix] = p;
                             break;
                         }
                     }
+
                 }
             }
         }
@@ -93,7 +85,7 @@
                 using (StreamWriter outfile = new StreamWriter(lastFileName)) {
                     foreach (Person p in contactList) {
                         if (p != null)
-                            outfile.WriteLine($"{p.persname};{p.surname};{p.phone};{p.address};{p.birthdate}");
+                            outfile.WriteLine($"{p.PersName};{p.Surname};{p.Phone};{p.Address};{p.BirthDate}");
                     }
                 }
             } else {
