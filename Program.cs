@@ -7,8 +7,8 @@
         {
             public string PersName { get; set; }
             public string Surname { get; set; }
-            public string Phone { get; set; }
-            public string Address { get; set; }
+            public string[] Phones { get; set; }
+            public string[] Addresses { get; set; }
             public string BirthDate { get; set; }
         }
 
@@ -65,9 +65,9 @@
                     Person p = new Person();
                     p.PersName = attrs[0]; p.Surname = attrs[1];
                     string[] phones = attrs[2].Split(';');
-                    p.Phone = phones[0];
+                    p.Phones = phones;
                     string[] addresses = attrs[3].Split(';');
-                    p.Address = addresses[0];
+                    p.Addresses = addresses;
 
                     for (int ix = 0; ix < contactList.Length; ix++) {
                         if (contactList[ix] == null) {
@@ -85,7 +85,7 @@
                 using (StreamWriter outfile = new StreamWriter(lastFileName)) {
                     foreach (Person p in contactList) {
                         if (p != null)
-                            outfile.WriteLine($"{p.PersName};{p.Surname};{p.Phone};{p.Address};{p.BirthDate}");
+                            outfile.WriteLine($"{p.PersName}|{p.Surname}|{String.Join(";", p.Phones)}|{String.Join("|", p.Addresses)}|{p.BirthDate}");
                     }
                 }
             } else {
