@@ -7,9 +7,11 @@
         {
             public string persname, surname, phone, address, birthdate;
         }
+
+        static string lastFileName = "address.lis";
+
         public static void Main(string[] args)
         {
-            string lastFileName = "address.lis";
             string[] commandLine;
             Console.WriteLine("Hello and welcome to the contact list");
             showHelp();
@@ -24,62 +26,7 @@
                 }
                 else if (commandLine[0] == "load")
                 {
-                    if (commandLine.Length < 2)
-                    {
-                        lastFileName = "address.lis";
-                        using (StreamReader infile = new StreamReader(lastFileName))
-                        {
-                            string line;
-                            while ((line = infile.ReadLine()) != null)
-                            {
-                                Console.WriteLine(line);
-                                string[] attrs = line.Split('|');
-                                Person p = new Person();
-                                p.persname = attrs[0];
-                                p.surname = attrs[1];
-                                string[] phones = attrs[2].Split(';');
-                                p.phone = phones[0];
-                                string[] addresses = attrs[3].Split(';');
-                                p.address = addresses[0];
-                                for (int ix = 0; ix < contactList.Length; ix++)
-                                {
-                                    if (contactList[ix] == null)
-                                    {
-                                        contactList[ix] = p;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        lastFileName = commandLine[1];
-                        using (StreamReader infile = new StreamReader(lastFileName))
-                        {
-                            string line;
-                            while ((line = infile.ReadLine()) != null)
-                            {
-                                Console.WriteLine(line);
-                                string[] attrs = line.Split('|');
-                                Person p = new Person();
-                                p.persname = attrs[0];
-                                p.surname = attrs[1];
-                                string[] phones = attrs[2].Split(';');
-                                p.phone = phones[0];
-                                string[] addresses = attrs[3].Split(';');
-                                p.address = addresses[0];
-                                for (int ix = 0; ix < contactList.Length; ix++)
-                                {
-                                    if (contactList[ix] == null)
-                                    {
-                                        contactList[ix] = p;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    load(commandLine);
                 }
                 else if (commandLine[0] == "save")
                 {
@@ -142,6 +89,31 @@
                 "\n  save /file/ - save contact list data to the file" +
                 "\n"
                 );
+        }
+
+        static void load(string[] commandLine) {
+            if (commandLine.Length > 1) lastFileName = commandLine[1];
+
+            using (StreamReader infile = new StreamReader(lastFileName)) {
+                string line;
+                while ((line = infile.ReadLine()) != null) {
+                    Console.WriteLine(line);
+                    string[] attrs = line.Split('|');
+                    Person p = new Person();
+                    p.persname = attrs[0];
+                    p.surname = attrs[1];
+                    string[] phones = attrs[2].Split(';');
+                    p.phone = phones[0];
+                    string[] addresses = attrs[3].Split(';');
+                    p.address = addresses[0];
+                    for (int ix = 0; ix < contactList.Length; ix++) {
+                        if (contactList[ix] == null) {
+                            contactList[ix] = p;
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
     }
