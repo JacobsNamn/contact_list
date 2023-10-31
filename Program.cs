@@ -25,8 +25,7 @@
                 commandLine = Console.ReadLine().Split(' ');
                 if (commandLine[0] == "quit")
                 {
-                    // NYI!
-                    Console.WriteLine("Not yet implemented: safe quit");
+                    // Tomt!
                 }
                 else if (commandLine[0] == "load") { load(commandLine); }
                 else if (commandLine[0] == "save") { save(commandLine); }
