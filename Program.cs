@@ -90,13 +90,17 @@
         }
 
         static void newItem(string[] commandLine) {
+
             if (commandLine.Length < 2) {
-                Console.Write("personal name: ");
-                string persname = Console.ReadLine();
-                Console.Write("surname: ");
-                string surname = Console.ReadLine();
-                Console.Write("phone: ");
-                string phone = Console.ReadLine();
+                string ReadWrite(string str) {
+                    Console.Write(str);
+                    return Console.ReadLine();
+                }
+
+                string persname = ReadWrite("personal name: ");
+                string surname = ReadWrite("surname: ");
+                string phone = ReadWrite("phone: "); // To-do: Split this, since user can have multiple phone numbers.
+
             } else {
                 // NYI!
                 Console.WriteLine("Not yet implemented: new /person/");
