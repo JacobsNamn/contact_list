@@ -17,24 +17,27 @@
         public static void Main(string[] args)
         {
             string[] commandLine;
+
             Console.WriteLine("Hello and welcome to the contact list");
             showHelp();
-            do
+
+            do // Program loop
             {
                 Console.Write($"> ");
                 commandLine = Console.ReadLine().Split(' ');
-                if (commandLine[0] == "quit")
+                string command = commandLine[0].ToLower();
+                if (command == "quit")
                 {
                     // Tomt!
                 }
-                else if (commandLine[0] == "load") { load(commandLine); }
-                else if (commandLine[0] == "save") { save(commandLine); }
-                else if (commandLine[0] == "new") { newItem(commandLine); }
-                else if (commandLine[0] == "help") { showHelp(); }
+                else if (command == "load") { load(commandLine); }
+                else if (command == "save") { save(commandLine); }
+                else if (command == "new") { newItem(commandLine); }
+                else if (command == "help") { showHelp(); }
                 else {
                     Console.WriteLine($"Unknown command: '{commandLine[0]}'");
                 }
-            } while (commandLine[0] != "quit");
+            } while (commandLine[0].ToLower() != "quit");
         }
 
 
@@ -75,16 +78,15 @@
         }
 
         static void save(string[] commandLine) {
-            if (commandLine.Length < 2) {
-                using (StreamWriter outfile = new StreamWriter(lastFileName)) {
-                    foreach (Person p in contactList) {
-                        if (p != null)
-                            outfile.WriteLine($"{p.PersName}|{p.Surname}|{String.Join(";", p.Phones)}|{String.Join("|", p.Addresses)}|{p.BirthDate}");
-                    }
+            string file = lastFileName;
+            if (commandLine.Length >= 2) {
+                file = commandLine[2];
+            }
+            using (StreamWriter outfile = new StreamWriter(file)) {
+                foreach (Person p in contactList) {
+                    if (p != null)
+                        outfile.WriteLine($"{p.PersName}|{p.Surname}|{String.Join(";", p.Phones)}|{String.Join("|", p.Addresses)}|{p.BirthDate}");
                 }
-            } else {
-                // NYI!
-                Console.WriteLine("Not yet implemented: save /file/");
             }
         }
 
