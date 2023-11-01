@@ -5,11 +5,32 @@
         static List<Person> contactList = new List<Person>();
         class Person
         {
-            public string PersName { get; set; }
-            public string Surname { get; set; }
-            public string[] Phones { get; set; }
-            public string[] Addresses { get; set; }
-            public string BirthDate { get; set; }
+            string persname, surname;
+            string[] phones, addresses;
+            string birthdate;
+
+            public Person() { }
+            public Person(string persname, string surname, string[] phones) {
+                this.persname = persname; this.surname = surname; this.phones = phones;
+            }
+            public Person(string persname, string surname, string[] phones, string[] addresses) {
+                this.persname = persname; this.surname = surname; this.phones = phones; this.addresses = addresses;
+            }
+            public Person(string persname, string surname, string[] phones, string[] addresses, string birthdate) {
+                this.persname = persname; this.surname = surname; this.birthdate = birthdate; this.phones = phones; this.addresses = addresses; 
+            }
+
+            public string PersName { get { return persname; } }
+            public string Surname { get {  return surname; } }
+            public string BirthDate { get {  return birthdate; } }
+            public string[] Phones { get { return phones; } }
+            public string[] Addresses { get { return addresses; } }
+
+            public string GetRaw() {
+                return $"{persname}|{surname}|{String.Join(";", phones)}|{String.Join(";", addresses)}|{birthdate}";
+            }
+
+
         }
 
         static string lastFileName = "address.lis";
@@ -64,12 +85,7 @@
                 while ((line = infile.ReadLine()) != null) {
                     Console.WriteLine(line);
                     string[] attrs = line.Split('|');
-                    Person p = new Person();
-                    p.PersName = attrs[0]; p.Surname = attrs[1];
-                    string[] phones = attrs[2].Split(';');
-                    p.Phones = phones;
-                    string[] addresses = attrs[3].Split(';');
-                    p.Addresses = addresses;
+                    Person p = new Person(attrs[0], attrs[1], attrs[2].Split(';'), attrs[3].Split(";"));
 
                     contactList.Add(p);
 
@@ -85,12 +101,12 @@
             using (StreamWriter outfile = new StreamWriter(file)) {
                 foreach (Person p in contactList) {
                     if (p != null)
-                        outfile.WriteLine($"{p.PersName}|{p.Surname}|{String.Join(";", p.Phones)}|{String.Join("|", p.Addresses)}|{p.BirthDate}");
+                        outfile.WriteLine(p.GetRaw());
                 }
             }
         }
 
-        static void newItem(string[] commandLine) {
+        static void newItem(string[] commandLine) { // 'new' command
 
             if (commandLine.Length < 2) {
                 string ReadWrite(string str) {
@@ -100,11 +116,12 @@
 
                 string persname = ReadWrite("personal name: ");
                 string surname = ReadWrite("surname: ");
-                string phone = ReadWrite("phone: "); // To-do: Split this, since user can have multiple phone numbers.
+                string[] phones = ReadWrite("phone (separate multiple numbers with semi-colon): ").Split(";"); // To-do: Split this, since user can have multiple phone numbers.
+
+                contactList.Add(new Person(persname, surname, phones));
 
             } else {
-                // NYI!
-                Console.WriteLine("Not yet implemented: new /person/");
+                contactList.Add(new Person());
             }
         }
 
